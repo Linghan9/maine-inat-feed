@@ -32,7 +32,7 @@ jobs:
 
       - name: Build GeoJSON from iNaturalist
         env:
-          PLACE_ID: "replace_me"
+          PLACE_ID: "17"
           TAXON_ID: ""
           ICONIC_TAXA: ""
           QUALITY_GRADE: ""
