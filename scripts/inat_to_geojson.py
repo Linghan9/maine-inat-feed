@@ -9,7 +9,31 @@ BASE_URL = "https://api.inaturalist.org/v1/observations"
 
 PLACE_ID = os.getenv("PLACE_ID", "").strip()
 TAXON_ID = os.getenv("TAXON_ID", "").strip()
-ICONIC_TAXA = os.getenv("ICONIC_TAXA", "").strip()
+def build_url(page: int) -> str:
+    params = {
+        "page": page,
+        "per_page": PER_PAGE,
+        "order_by": "observed_on",
+        "order": "desc",
+        "geo": "true",
+    }
+
+    if PLACE_ID:
+        params["place_id"] = PLACE_ID
+    if TAXON_ID:
+        params["taxon_id"] = TAXON_ID
+    if QUALITY_GRADE:
+        params["quality_grade"] = QUALITY_GRADE
+
+    # iNat expects repeated iconic_taxa[] params, not one comma string
+    if ICONIC_TAXA:
+        taxa = [t.strip() for t in ICONIC_TAXA.split(",") if t.strip()]
+        params["iconic_taxa[]"] = taxa
+
+    # helpful filters
+    params["has[]"] = ["geo", "photos"]
+
+    return f"{BASE_URL}?{urllib.parse.urlencode(params, doseq=True)}"
 QUALITY_GRADE = os.getenv("QUALITY_GRADE", "").strip()
 PER_PAGE = int(os.getenv("PER_PAGE", "200"))
 MAX_PAGES = int(os.getenv("MAX_PAGES", "10"))
