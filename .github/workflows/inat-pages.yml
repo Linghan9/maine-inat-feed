@@ -34,7 +34,7 @@ jobs:
         env:
           PLACE_ID: "17"
           TAXON_ID: ""
-          ICONIC_TAXA: "Fungi"
+          ICONIC_TAXA: "Aves,Fungi"
           QUALITY_GRADE: ""
           PER_PAGE: "200"
           MAX_PAGES: "10"
